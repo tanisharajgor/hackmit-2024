@@ -1,5 +1,7 @@
 from ultralytics import YOLO
+from translation import translate
 import cv2
+import threading
 
 # Load the YOLOv8 model
 model = YOLO('./models/yolov8l.pt')  # Use the appropriate YOLOv8 model
@@ -11,16 +13,22 @@ cap = cv2.VideoCapture(0)  # Use the correct camera index (0, 1, etc.)
 bounding_boxes = []
 labels = []
 clicked_info = ""
+translation_lock = threading.Lock()
+
+def translate_in_background(label):
+    global clicked_info
+    with translation_lock:
+        clicked_info = translate(label, "Spanish")
 
 def click_event(event, x, y, flags, params):
-    global clicked_info
     if event == cv2.EVENT_LBUTTONDOWN:
-        clicked_info = ""
         print(f"Mouse click at: ({x}, {y})")
         for i, (box, label) in enumerate(zip(bounding_boxes, labels)):
             x1, y1, x2, y2 = box
             if x1 <= x <= x2 and y1 <= y <= y2:
-                clicked_info = label
+                # Start translation in a new thread
+                translation_thread = threading.Thread(target=translate_in_background, args=(label,))
+                translation_thread.start()
                 print(f"Object clicked: {label}")
                 break
 
@@ -55,7 +63,7 @@ while True:
 
             # This is where the label for each detected object is assigned. 
             label = f'{model.names[cls]} {conf:.2f}'
-            
+
             bounding_boxes.append((int(x1), int(y1), int(x2), int(y2)))
             labels.append(label)
             frame = cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
@@ -63,7 +71,7 @@ while True:
 
     # Display the clicked information on the frame
     if clicked_info:
-        frame = cv2.putText(frame, f"Clicked Object: {clicked_info}", (10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+        frame = cv2.putText(frame, f"Clicked Object: {clicked_info}")
 
     # Display the frame
     cv2.imshow('YOLOv8 Object Detection', frame)
