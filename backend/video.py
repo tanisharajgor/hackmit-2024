@@ -53,7 +53,9 @@ while True:
             # Ensure class index is within bounds
             cls = min(cls, len(model.names) - 1)
 
+            # This is where the label for each detected object is assigned. 
             label = f'{model.names[cls]} {conf:.2f}'
+            
             bounding_boxes.append((int(x1), int(y1), int(x2), int(y2)))
             labels.append(label)
             frame = cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
