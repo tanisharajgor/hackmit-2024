@@ -2,6 +2,7 @@ from flask import Flask, render_template, Response
 import cv2
 from ultralytics import YOLO
 import threading
+from contextual_properties import *
 
 app = Flask(__name__)
 
