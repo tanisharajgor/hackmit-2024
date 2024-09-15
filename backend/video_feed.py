@@ -76,11 +76,12 @@ def click_event(x, y):
             usages = get_usages(label)
             
             # Return multiple values as JSON
-            return {
-                "label": label,
-                "part_of_speech": part_of_speech,
-                "usages": usages
-            }
+            # return {
+            #     "label": label,
+            #     "part_of_speech": part_of_speech,
+            #     "usages": usages
+            # }
+            return label
 
     return {"label": "No object clicked"}  # Return this if no object was clicked
 

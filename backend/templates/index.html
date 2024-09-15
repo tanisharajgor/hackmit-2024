@@ -15,19 +15,19 @@
       }
       #popup {
         position: absolute;
-        background-image: url("popup_background.png");
+        background-image: url("popup_background.png"); /* Add this line */
         background-color: #082857;
-        background-size: cover;
-        background-position: center;
+        background-size: cover; /* Ensures the background image covers the entire popup */
+        background-position: center; /* Centers the background image */
         border: 1px solid #ccc;
         border-radius: 5px;
         padding: 15px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         display: none;
         z-index: 1000;
-        max-width: 500px;
-        width: 100%;
-        box-sizing: border-box;
+        max-width: 500px; /* Increased width */
+        width: 100%; /* Ensure it takes up the full width if needed */
+        box-sizing: border-box; /* Includes padding and border in element's total width and height */
       }
       .popup-content {
         margin-bottom: 10px;
@@ -59,31 +59,56 @@
 
     <div id="popup">
       <div id="popup-content" class="popup-content">Object Info</div>
-      <div id="popup-pos" class="popup-text">Noun</div>
+      <div id="pos" class="popup-text"></div>
+      <div id="pronunciation" class="popup-text"></div>
       <div class="popup-header">Usages</div>
-      <div id="popup-usages" class="popup-text">Sentences</div>
+      <div id="sentences" class="popup-text"></div>
+      <div id="synonyms" class="popup-text"></div>
+      <div id="antonyms" class="popup-text"></div>
     </div>
 
     <script>
       function showPopup(event) {
         var popup = document.getElementById("popup");
         var content = document.getElementById("popup-content");
-        var posElement = document.getElementById("popup-pos");
-        var usagesElement = document.getElementById("popup-usages");
+        var pos = document.getElementById("pos");
+        var pronunciation = document.getElementById("pronunciation");
+        var sentences = document.getElementById("sentences");
+        var synonyms = document.getElementById("synonyms");
+        var antonyms = document.getElementById("antonyms");
 
         var x = event.offsetX;
         var y = event.offsetY;
 
         // Send the click event to Flask backend
         fetch(`/click_event/${x}/${y}`)
-          .then((response) => response.json()) // Get the JSON response
-          .then((data) => {
-            if (data.label !== "No object clicked") {
-              // Display the object info in the popup
-              content.innerHTML = data.label;
-              posElement.innerHTML = data.part_of_speech || 'Unknown';
-              usagesElement.innerHTML = data.usages ? data.usages.join(', ') : 'No usage info available';
-              
+          .then((response) => response.text()) // Get the response text (object label)
+          .then((label) => {
+            if (label !== "No object clicked") {
+              content.innerHTML = label;
+
+              // Check the label and update the popup fields accordingly
+              if (label === "teddy bear") {
+                pos.innerHTML = "Noun";
+                pronunciation.innerHTML = "/ˈtɛdi bɛər/";
+                sentences.innerHTML = "1. She hugged the soft teddy bear tightly as she fell asleep.<br>2. The child carried his favorite teddy bear everywhere he went.<br>3. I bought a new teddy bear for my niece's birthday.";
+                synonyms.innerHTML = "Synonyms: Plush toy, Stuffed animal";
+                antonyms.innerHTML = "Antonyms: None";
+              } else if (label === "bottle") {
+                pos.innerHTML = "Noun";
+                pronunciation.innerHTML = "Pronunciation: /ˈbɒtl/";
+                sentences.innerHTML = "1. She filled the glass bottle with fresh water from the spring.<br>2. He placed the baby’s milk in the bottle before feeding her.<br>3. I accidentally dropped the bottle, and it shattered on the floor.";
+                synonyms.innerHTML = "Synonyms: Flask, Container";
+                antonyms.innerHTML = "Antonyms: None";
+              } else {
+                // Default fields for other objects
+                noun.innerHTML = "Noun: Unknown";
+                pronunciation.innerHTML = "Pronunciation: Not available";
+                sentences.innerHTML = "Sentences: Not available";
+                synonyms.innerHTML = "Synonyms: Not available";
+                antonyms.innerHTML = "Antonyms: Not available";
+              }
+
               popup.style.left = event.pageX + "px";
               popup.style.top = event.pageY + "px";
               popup.style.display = "block";
