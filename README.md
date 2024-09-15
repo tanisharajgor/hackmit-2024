@@ -1,4 +1,6 @@
 
+<img width="663" alt="Screenshot 2024-09-15 at 10 58 33 AM" src="https://github.com/user-attachments/assets/b0eb3de8-3be4-47e8-957a-50050394c684">
+
 ### LinguaVision
 
 Traditional language learning often feels disconnected from real life, filled with repetitive memorization and monotonous habits. But languages are more than just lists of words– they surround us in our daily environments. Language learning should be immersive, dynamic, and accessible. Our approach to this problem aims to bridge the gap between language and everyday experience. Whether it’s travelers wanting to quickly pick up new vocabulary based on their surroundings, students seeking a more engaging way to learn, or anyone looking to take a break from conventional classroom-bound learning, LinguaVision opens up the world as a learning tool.
@@ -15,3 +17,4 @@ Frontend: React Native, Expo, JavaScript/TypeScript, HTML, CSS, Node.js
 
 ### Check it out!
 
+Demo Video: https://youtu.be/7eL95UyXW6M
