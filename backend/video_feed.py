@@ -70,9 +70,19 @@ def click_event(x, y):
         x1, y1, x2, y2 = box
         if x1 <= x <= x2 and y1 <= y <= y2:
             clicked_info = label
-            return label  # Return the object's label (name)
-    return "No object clicked"  # Return this if no object was clicked
+            
+            # Get additional information about the label
+            part_of_speech = get_part_of_speech(label)
+            usages = get_usages(label)
+            
+            # Return multiple values as JSON
+            return {
+                "label": label,
+                "part_of_speech": part_of_speech,
+                "usages": usages
+            }
 
+    return {"label": "No object clicked"}  # Return this if no object was clicked
 
 if __name__ == "__main__":
     app.run(debug=True)

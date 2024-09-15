@@ -15,19 +15,19 @@
       }
       #popup {
         position: absolute;
-        background-image: url("popup_background.png"); /* Add this line */
+        background-image: url("popup_background.png");
         background-color: #082857;
-        background-size: cover; /* Ensures the background image covers the entire popup */
-        background-position: center; /* Centers the background image */
+        background-size: cover;
+        background-position: center;
         border: 1px solid #ccc;
         border-radius: 5px;
         padding: 15px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         display: none;
         z-index: 1000;
-        max-width: 500px; /* Increased width */
-        width: 100%; /* Ensure it takes up the full width if needed */
-        box-sizing: border-box; /* Includes padding and border in element's total width and height */
+        max-width: 500px;
+        width: 100%;
+        box-sizing: border-box;
       }
       .popup-content {
         margin-bottom: 10px;
@@ -59,30 +59,31 @@
 
     <div id="popup">
       <div id="popup-content" class="popup-content">Object Info</div>
-      <div class="popup-text">Noun</div>
-      <div class="popup-text">Phonetic Pronunciation</div>
+      <div id="popup-pos" class="popup-text">Noun</div>
       <div class="popup-header">Usages</div>
-      <div class="popup-text">Sentence #1</div>
-      <div class="popup-text">Sentence #2</div>
-      <div class="popup-text">Sentence #3</div>
-      <div class="popup-text">Synonyms</div>
-      <div class="popup-text">Antonyms</div>
+      <div id="popup-usages" class="popup-text">Sentences</div>
     </div>
 
     <script>
       function showPopup(event) {
         var popup = document.getElementById("popup");
         var content = document.getElementById("popup-content");
+        var posElement = document.getElementById("popup-pos");
+        var usagesElement = document.getElementById("popup-usages");
+
         var x = event.offsetX;
         var y = event.offsetY;
 
         // Send the click event to Flask backend
         fetch(`/click_event/${x}/${y}`)
-          .then((response) => response.text()) // Get the response text (object label)
-          .then((label) => {
-            if (label !== "No object clicked") {
-              // Display the object name and confidence in the popup
-              content.innerHTML = label;
+          .then((response) => response.json()) // Get the JSON response
+          .then((data) => {
+            if (data.label !== "No object clicked") {
+              // Display the object info in the popup
+              content.innerHTML = data.label;
+              posElement.innerHTML = data.part_of_speech || 'Unknown';
+              usagesElement.innerHTML = data.usages ? data.usages.join(', ') : 'No usage info available';
+              
               popup.style.left = event.pageX + "px";
               popup.style.top = event.pageY + "px";
               popup.style.display = "block";
