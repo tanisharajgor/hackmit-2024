@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>YOLO Object Detection</title>
+    <title>Real-Time Object Translation</title>
     <!-- Link to Google Fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;900&display=swap"
@@ -86,23 +86,31 @@
           .then((label) => {
             if (label !== "No object clicked") {
               content.innerHTML = label;
-
               // Check the label and update the popup fields accordingly
               if (label === "teddy bear") {
+                content.innerHTML = "osito de peluche";
                 pos.innerHTML = "Noun";
-                pronunciation.innerHTML = "/ˈtɛdi bɛər/";
-                sentences.innerHTML = "1. She hugged the soft teddy bear tightly as she fell asleep.<br>2. The child carried his favorite teddy bear everywhere he went.<br>3. I bought a new teddy bear for my niece's birthday.";
-                synonyms.innerHTML = "Synonyms: Plush toy, Stuffed animal";
-                antonyms.innerHTML = "Antonyms: None";
+                pronunciation.innerHTML = "/oˈsi.to de peˈlu.tʃe/";
+                sentences.innerHTML = "1. Abrazó con fuerza al suave osito de peluche mientras se dormía.<br>2. El niño llevaba su osito de peluche favorito a todas partes.<br>3. Compré un osito de peluche nuevo para el cumpleaños de mi sobrina";
+                // synonyms.innerHTML = "Synonyms: Plush toy, Stuffed animal";
+                // antonyms.innerHTML = "Antonyms: None";
               } else if (label === "bottle") {
+                content.innerHTML = "botella";
                 pos.innerHTML = "Noun";
-                pronunciation.innerHTML = "Pronunciation: /ˈbɒtl/";
-                sentences.innerHTML = "1. She filled the glass bottle with fresh water from the spring.<br>2. He placed the baby’s milk in the bottle before feeding her.<br>3. I accidentally dropped the bottle, and it shattered on the floor.";
-                synonyms.innerHTML = "Synonyms: Flask, Container";
-                antonyms.innerHTML = "Antonyms: None";
+                pronunciation.innerHTML = "/boˈte.ʎa/";
+                sentences.innerHTML = "1. Ella llenó el biberón de vidrio con agua fresca del manantial.<br>2. Él colocó la leche del bebé en el biberón antes de alimentarla.<br>3. Accidentalmente dejé caer el biberón y se rompió en el suelo.";
+                // synonyms.innerHTML = "Synonyms: Flask, Container";
+                // antonyms.innerHTML = "Antonyms: None";
+              } else if (label === "laptop") {
+                content.innerHTML = "computadora portátil";
+                pos.innerHTML = "Noun";
+                pronunciation.innerHTML = "/porˈta.til/";
+                sentences.innerHTML = "1. Usó su portátil para trabajar desde casa.<br>2. El portátil se calentó después de varias horas de uso.<br>3. Compré una funda para proteger mi portátil mientras viajo.";
+                // synonyms.innerHTML = "Synonyms: Laptop computer, Notebook";
+                // antonyms.innerHTML = "Antonyms: Desktop";
               } else {
                 // Default fields for other objects
-                noun.innerHTML = "Noun: Unknown";
+                pos.innerHTML = "Part of Speech: Unknown";
                 pronunciation.innerHTML = "Pronunciation: Not available";
                 sentences.innerHTML = "Sentences: Not available";
                 synonyms.innerHTML = "Synonyms: Not available";

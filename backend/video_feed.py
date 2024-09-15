@@ -83,7 +83,7 @@ def click_event(x, y):
             # }
             return label
 
-    return {"label": "No object clicked"}  # Return this if no object was clicked
+    return "No object clicked"  # Return this if no object was clicked
 
 if __name__ == "__main__":
     app.run(debug=True)
