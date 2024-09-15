@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YOLO Object Detection</title>
+    <!-- Link to Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Nunito", sans-serif;
+      }
+      #popup {
+        position: absolute;
+        background-image: url("popup_background.png"); /* Add this line */
+        background-color: #082857;
+        background-size: cover; /* Ensures the background image covers the entire popup */
+        background-position: center; /* Centers the background image */
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        display: none;
+        z-index: 1000;
+        max-width: 500px; /* Increased width */
+        width: 100%; /* Ensure it takes up the full width if needed */
+        box-sizing: border-box; /* Includes padding and border in element's total width and height */
+      }
+      .popup-content {
+        margin-bottom: 10px;
+        font-size: 25px;
+        color: hsl(302, 86%, 64%);
+        font-weight: 500;
+      }
+      .popup-text {
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: #f9eadb;
+      }
+      .popup-header {
+        font-weight: 500;
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: #f9eadb;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>YOLOv8 Object Detection</h1>
+    <img
+      src="{{ url_for('video_feed') }}"
+      id="videoFeed"
+      onclick="showPopup(event)"
+      style="max-width: 100%; height: auto"
+    />
+
+    <div id="popup">
+      <div id="popup-content" class="popup-content">Object Info</div>
+      <div class="popup-text">Noun</div>
+      <div class="popup-text">Phonetic Pronunciation</div>
+      <div class="popup-header">Usages</div>
+      <div class="popup-text">Sentence #1</div>
+      <div class="popup-text">Sentence #2</div>
+      <div class="popup-text">Sentence #3</div>
+      <div class="popup-text">Synonyms</div>
+      <div class="popup-text">Antonyms</div>
+    </div>
+
+    <script>
+      function showPopup(event) {
+        var popup = document.getElementById("popup");
+        var content = document.getElementById("popup-content");
+        var x = event.offsetX;
+        var y = event.offsetY;
+
+        // Send the click event to Flask backend
+        fetch(`/click_event/${x}/${y}`)
+          .then((response) => response.text()) // Get the response text (object label)
+          .then((label) => {
+            if (label !== "No object clicked") {
+              // Display the object name and confidence in the popup
+              content.innerHTML = label;
+              popup.style.left = event.pageX + "px";
+              popup.style.top = event.pageY + "px";
+              popup.style.display = "block";
+            }
+          })
+          .catch((error) => console.error("Error:", error));
+      }
+
+      // Hide popup when clicking outside
+      document.addEventListener("click", function (e) {
+        if (!e.target.closest("#videoFeed")) {
+          document.getElementById("popup").style.display = "none";
+        }
+      });
+    </script>
+  </body>
+</html>
