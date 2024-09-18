@@ -18,3 +18,4 @@ Frontend: React Native, Expo, JavaScript/TypeScript, HTML, CSS, Node.js
 ### Check it out!
 
 Demo Video: https://youtu.be/7eL95UyXW6M
+ 
